@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../WEB-INF/template/newTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <div>
+            <div>
+                <p:fieldset legend="Registro de usuarios">
+                <h:form>
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="NumeroCedula:" for="numeroCedula" />
+                        <p:inputText id="numeroCedula" value="#{usuarioControler.usuario.numeroCedula}" title="NumeroCedula" />
+                        <p:outputLabel value="Correo Electrónico:" for="correo"/>
+                        <p:inputText a:type="email:" id="correo" value="#{correoUsuarioControler.correoUsuario.correoElectronico}"/>
+                        <p:outputLabel value="Nombres:" for="nombre"/>
+                        <p:inputText id="nombre" value="#{informacionClienteControler.informacionCliente.nombreApellidos}"/>
+                        <p:outputLabel value="Teléfono:" for="telefono"/>
+                        <p:inputText id="telefono" value="#{informacionClienteControler.informacionCliente.telefono}"/>
+                        <p:outputLabel value="Dirección:" for="direcion"/>
+                        <p:inputText id="direcion" value="#{informacionClienteControler.informacionCliente.direccion}"/>
+                        <p:outputLabel value="Fecha Nacimiento:" for="fecha"/>
+                        <p:inputText id="fecha" a:type="date" value="#{informacionClienteControler.informacionCliente.fechaNacimiento}">
+                            <f:convertDateTime pattern="yyyy-MM-dd"/>
+                        </p:inputText>
+                    </h:panelGrid>
+                    <p:commandButton value="Registrar" actionListener="#{usuarioControler.registrarCliente()}"/>
+                </h:form>
+                    </p:fieldset>
+            </div>
+            <div>
+                <f:view>
+                    <p:fieldset legend="lista de clientes">
+                    <h:form>
+                        <p:dataTable value="#{usuarioControler.listaUsuarios()}" var="item">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre Apellidos"/>
+                                </f:facet>
+                                <h:outputText value="#{item.informacionCliente.nombreApellidos}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="NumeroCedula"/>
+                                </f:facet>
+                                <h:outputText value="#{item.numeroCedula}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Correo Usuario"/>
+                                </f:facet>
+                                <ol>
+                                    <ui:repeat value="#{correoUsuarioControler.listaCorreosUsuario(item.idUsuario)}" var="i">
+                                        <li>#{i.correoElectronico}</li>
+                                    </ui:repeat>
+                                </ol>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Teléfono"/>
+                                </f:facet>
+                                <h:outputText value="#{item.informacionCliente.telefono}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Dirección"/>
+                                </f:facet>
+                                <h:outputText value="#{item.informacionCliente.direccion}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                        </p:fieldset>
+                </f:view>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>
